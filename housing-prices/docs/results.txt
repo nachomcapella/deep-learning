@@ -1,0 +1,98 @@
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
+from keras import optimizers
+
+input_shape = tr_attributes.shape[1]
+num_classes = tr_labels.shape[1]
+
+mlp = Sequential() 
+mlp.add(Dense(1000, input_shape = (input_shape,)))
+mlp.add(Activation('relu'))
+mlp.add(Dropout(0.3))
+mlp.add(Dense(750))
+mlp.add(Activation('relu'))
+mlp.add(Dropout(0.3))
+mlp.add(Dense(num_classes))
+mlp.add(Activation('softmax'))
+
+opt = optimizers.SGD(lr=0.0001, decay=1e-6, momentum=0.99, nesterov=True)
+
+mlp.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+mlp.summary()
+
+from time import time
+import matplotlib.pyplot as plt
+%matplotlib inline 
+
+data = mlp.fit(tr_attributes,
+               tr_labels,
+               batch_size=25,
+               epochs=150,
+               verbose=1,
+               validation_data=(val_attributes, val_labels))
+
+start = time()
+loss, acc = mlp.evaluate(test_attributes, test_labels, verbose=0)
+end = time()
+print('ffNN took ' + str(end - start) + ' seconds')
+print('Test loss: ' + str(loss) + ' - Accuracy: ' + str(acc))
+
+plt.plot(data.history['acc'])
+plt.plot(data.history['val_acc'])
+plt.title('Model accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Val'], loc='upper left')
+plt.show()
+
+ffNN took 0.0612950325012207 seconds
+Test loss: 0.1599420447288894 - Accuracy: 0.9388454010575251
+-----------------------------------------------------------------------------------------------------------
+data = mlp.fit(tr_attributes,
+               tr_labels,
+               batch_size=25,
+               epochs=200,
+               verbose=1,
+               validation_data=(val_attributes, val_labels))
+
+ffNN took 0.06344032287597656 seconds
+Test loss: 0.14981494459037445 - Accuracy: 0.9452054796853411
+-----------------------------------------------------------------------------------------------------------
+Increasing the number of epochs does not improve the accuracy.
+-----------------------------------------------------------------------------------------------------------
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
+from keras import optimizers
+
+input_shape = tr_attributes.shape[1]
+num_classes = tr_labels.shape[1]
+
+mlp = Sequential() 
+mlp.add(Dense(1000, input_shape = (input_shape,)))
+mlp.add(Activation('relu'))
+mlp.add(Dropout(0.3))
+mlp.add(Dense(750))
+mlp.add(Activation('relu'))
+mlp.add(Dropout(0.3))
+mlp.add(Dense(250))
+mlp.add(Activation('relu'))
+mlp.add(Dropout(0.3))
+mlp.add(Dense(num_classes))
+mlp.add(Activation('softmax'))
+
+opt = optimizers.SGD(lr=0.0001, decay=1e-6, momentum=0.99, nesterov=True)
+
+mlp.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+mlp.summary()
+
+ffNN took 0.07420754432678223 seconds
+Test loss: 0.12371481135633361 - Accuracy: 0.9520547941706186
+------------------------------------------------------------------------------------------------------------------
+Increasing more the number of layers does not improve accuracy.
+------------------------------------------------------------------------------------------------------------------
+Changing the number of neurons per layer does not improve accuracy
+------------------------------------------------------------------------------------------------------------------
+opt = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+
+ffNN took 0.08007121086120605 seconds
+Test loss: 0.1074737031924048 - Accuracy: 0.9579256356578983
