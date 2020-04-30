@@ -96,3 +96,65 @@ opt = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 
 ffNN took 0.08007121086120605 seconds
 Test loss: 0.1074737031924048 - Accuracy: 0.9579256356578983
+------------------------------------------------------------------------------------------------------------------
+from time import time
+import matplotlib.pyplot as plt
+%matplotlib inline 
+
+data = mlp.fit(tr_attributes,
+               tr_labels,
+               batch_size=128, 
+               epochs=500,
+               verbose=1,
+               validation_data=(val_attributes, val_labels))
+
+start = time()
+loss, acc = mlp.evaluate(test_attributes, test_labels, verbose=0)
+end = time()
+print('ffNN took ' + str(end - start) + ' seconds')
+print('Test loss: ' + str(loss) + ' - Accuracy: ' + str(acc))
+
+ffNN took 0.06422567367553711 seconds
+Test loss: 0.09466303406746186 - Accuracy: 0.9608610564015383
+-------------------------------------------------------------------------------------------------------------------
+from time import time
+import matplotlib.pyplot as plt
+%matplotlib inline 
+
+data = mlp.fit(tr_attributes,
+               tr_labels,
+               batch_size=512, 
+               epochs=2048,
+               verbose=1,
+               validation_data=(val_attributes, val_labels))
+
+start = time()
+loss, acc = mlp.evaluate(test_attributes, test_labels, verbose=0)
+end = time()
+print('ffNN took ' + str(end - start) + ' seconds')
+print('Test loss: ' + str(loss) + ' - Accuracy: ' + str(acc))
+
+ffNN took 0.08913016319274902 seconds
+Test loss: 0.07808607942816563 - Accuracy: 0.9696673192156737
+-------------------------------------------------------------------------------------------------------------------
+from time import time
+import matplotlib.pyplot as plt
+%matplotlib inline 
+
+data = mlp.fit(tr_attributes,
+               tr_labels,
+               batch_size=1024, 
+               epochs=4096,
+               verbose=1,
+               validation_data=(val_attributes, val_labels))
+
+start = time()
+loss, acc = mlp.evaluate(test_attributes, test_labels, verbose=0)
+end = time()
+print('ffNN took ' + str(end - start) + ' seconds')
+print('Test loss: ' + str(loss) + ' - Accuracy: ' + str(acc))
+
+ffNN took 0.09136843681335449 seconds
+Test loss: 0.07823523861919247 - Accuracy: 0.973581213540527
+--------------------------------------------------------------------------------------------------------------------
+Batch normalization does not improve the results.
