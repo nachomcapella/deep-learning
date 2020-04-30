@@ -1,5 +1,5 @@
 # Deep Learning
-This repository contains two examples of neural networks aaplied to classification problems.
+This repository contains two examples of neural networks aplied to classification problems.
 
 **1.  Housing prices** :house_with_garden:: Uses a feedforward neural network to classify houses according to their location using the California Housing Prices dataset.
 Building a deep artificial neural network to estimate the approximate location of housing blocks.
